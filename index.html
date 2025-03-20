@@ -42,10 +42,6 @@
   <script src="static/js/bulma-carousel.min.js"></script>
   <script src="static/js/bulma-slider.min.js"></script>
   <script src="static/js/index.js"></script>
-  <script type="text/javascript" async
-    src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script type="text/javascript" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
@@ -171,18 +167,18 @@
             <h2 class="title is-3">Pipeline</h2>
             <div class="level-set has-text-justified">
               <p>
-                We first input the observation $o_t$ into the CLIP visual encoder 
+                We first input the observation into the CLIP visual encoder 
                 and extract the [CLS] token as a global embedding. Meanwhile, we use SAM2 to 
-                segment object masks in $o_t$ and obtain visual crops of $N_{crop}$ 
-                individual objects. These cropped images are then fed into the CLIP visual 
+                segment object masks in observation and obtain visual crops of individual objects. 
+                These cropped images are then fed into the CLIP visual 
                 encoder to generate instance embeddings. To integrate these features, we employ 
                 an instance-level semantic module that fuses each instance embedding with the 
                 global embedding. Next, we compute a confidence score for each object to assess 
                 its likelihood of alignment with the given instruction which is presented as 
-                text embeddings $e^{TL}_l$ and $e^{RD}_l$. In the Target Localization (\textit{TL}) 
+                text embeddings. In the Target Localization 
                 stage, a lightweight fully connected networks (FCN) is used to refine the specific 
                 manipulation position, ensuring accurate picking. In the Region Determination 
-                (\textit{RD}) stage, the crop of the picked object is used to determine the optimal 
+                stage, the crop of the picked object is used to determine the optimal 
                 placement position and angle through cross-correlation.
               </p>
             </div>
