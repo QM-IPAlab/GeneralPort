@@ -25,7 +25,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <title>Improving Generalization of Language-Conditioned Robot Manipulation</title>
+  <title>DiffPort: Adapting Pre-trained Diffusion Models for Generalizable Robot Manipulation</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
@@ -52,24 +52,35 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Improving Generalization of Language-Conditioned Robot Manipulation</h1>
+            <h1 class="title is-1 publication-title">DiffPort: Adapting Pre-trained Diffusion Models for Generalizable
+              Robot Manipulation</h1>
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
-                Chenglin Cui</a><sup>1</sup>,</span>
+                <a href="https://scholar.google.com/citations?hl=en&user=12U1mcgAAAAJ" target="_blank">Chaoran
+                  Zhu</a><sup>*1</sup>,</span>
               <span class="author-block">
-                Chaoran Zhu</a><sup>1</sup>,</span>
+                <a href="https://kerolex.github.io/" target="_blank">Junyoung Seo</a><sup>*2</sup>,</span>
               <span class="author-block">
-                <a href="http://eecs.qmul.ac.uk/~coh/" target="_blank">Changjae Oh</a><sup>1</sup>,
+                Aliyasin El Ayouch<sup>3</sup>,
               </span>
               <span class="author-block">
-                Andrea Cavallaro</a><sup>1,2</sup>
+                <a href="https://emmanuel-senft.github.io/" target="_blank">Emmanuel Senft</a><sup>3</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=cIK1hS8AAAAJ&hl=ko" target="_blank">Seungryong
+                  Kim</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="http://eecs.qmul.ac.uk/~coh/" target="_blank">Changjae Oh</a><sup>1</sup>,
               </span>
             </div>
 
             <div class="is-size-5 publication-authors">
               <span class="author-block">Queen Mary University of London, UK<sup>1</sup><br>
-                Idiap Research Institute, Switzerland<sup>2</sup></span>
+                Korea Advanced Institute of Science & Technology, Korea<sup>2</sup>
+                <br>Idiap Research Institute, Switzerland<sup>3</sup></span>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
             </div>
 
             <div class="column has-text-centered">
@@ -127,6 +138,23 @@
   </section>
 
 
+  <!-- Teaser video-->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <video poster="" id="tree" autoplay controls muted loop height="100%" width="100%">
+          <source src="static/videos/teaser video.mp4" type="video/mp4">
+        </video>
+
+        <h2 class="subtitle has-text-centered">
+          We present DiffPort, a visual-languae model which leverage pre-trained diffsuion models for robot maniplation
+          tasks. Our model applies to a wide range of robot tasks in both simulation and real world.
+        </h2>
+      </div>
+    </div>
+  </section>
+  <!-- End teaser video -->
+
   <!-- Paper abstract -->
   <section class="section hero is-light">
     <div class="container is-max-desktop">
@@ -135,20 +163,14 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              The control of a robot for manipulation tasks generally relies on visual inputs. 
-              Recent advances in vision-language models (VLMs) enable using natural language 
-              instructions to condition this input and operate robots in a wider range of 
-              environments. However, existing methods require a large amount of data to fine-tune 
-              the VLM to operate in unseen environments. In this paper, we present a framework 
-              that learns object-arrangement tasks with just a few-shot demonstrations. We present 
-              a two-stage framework that divides object-arrangement tasks into a target localization 
-              stage, for picking an object, and a region determination stage, for placing the object. 
-              We present an instance-level semantic fusion module that maps the instance-level image 
-              crops with the input text embedding, enabling the model to identify the target objects 
-              defined by the natural language instructions. We validate our method on both simulation 
-              and real-robot environments. Our method, fine-tuned with a few-shot demonstration, 
-              improves generalization capability and shows zero-shot ability in real-robot manipulation 
-              scenarios.
+              We introduce a new framework that leverages a pre-trained text-to-image diffusion model for
+              language-guided robot manipulation. We use a learnable captioner that transforms the textual commands for
+              robot action into text embeddings aligned with the pre-trained diffusion model. We then utilize the
+              diffusion-aligned text embeddings and the visual observations as input to extract features from the
+              diffusion model. These semantic features are then integrated with an affordance prediction network that
+              guides robot actions for pick and place tasks. We validate our framework on diverse language-guided
+              tabletop robot manipulation tasks in both simulation and real-world environments. The results demonstrate
+              the advantages of our approach in manipulating previously seen and unseen objects.
             </p>
           </div>
           <div>
@@ -167,19 +189,9 @@
             <h2 class="title is-3">Pipeline</h2>
             <div class="level-set has-text-justified">
               <p>
-                We first input the observation into the CLIP visual encoder 
-                and extract the [CLS] token as a global embedding. Meanwhile, we use SAM2 to 
-                segment object masks in observation and obtain visual crops of individual objects. 
-                These cropped images are then fed into the CLIP visual 
-                encoder to generate instance embeddings. To integrate these features, we employ 
-                an instance-level semantic module that fuses each instance embedding with the 
-                global embedding. Next, we compute a confidence score for each object to assess 
-                its likelihood of alignment with the given instruction which is presented as 
-                text embeddings. In the Target Localization 
-                stage, a lightweight fully connected networks (FCN) is used to refine the specific 
-                manipulation position, ensuring accurate picking. In the Region Determination 
-                stage, the crop of the picked object is used to determine the optimal 
-                placement position and angle through cross-correlation.
+                Our model processes an RGB-D observation and corresponding robot commands during manipulation. In the
+                decoder, features from the diffusion model and the transporter are fused through concatenation, while
+                features from the text encoder are integrated via element-wise multiplication.
               </p>
             </div>
           </div>
@@ -198,9 +210,8 @@
             <h2 class="title is-3">Robot Setup</h2>
             <div class="level-set has-text-justified">
               <p>
-                All experiments were conducted using a UR5 robot arm equipped with 
-                a Robotiq 2F-85 2-finger gripper and an Intel Realsense D435 camera 
-                mounted on the robot arm.
+                We conduct experiments using a Franka Emika Panda robot equipped with an RGB-D end-effector camera. We
+                also show our seen and unseen split of objects and colored blocks in the manipulation tasks.
               </p>
             </div>
           </div>
@@ -218,6 +229,7 @@
         <h2 class="title is-3">Real robot experiments</h2>
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
+            Seen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -225,26 +237,31 @@
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-01.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the yellow block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-02.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the blue block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-03.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the screwdriver in the brown box</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-04.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the banana in the brown box</div>
           </div>
         </div>
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
             <br> 
+            Unseen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -252,21 +269,25 @@
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-01.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the orange block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-02.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the green block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-03.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the strawberry in the brown box</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-04.mp4" type="video/mp4">
             </video>
+            <div class="description">Put the golf ball in the brown box</div>
           </div>
         </div>
       </div>
@@ -280,6 +301,7 @@
         <h2 class="title is-3">Simulation experiments</h2>
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
+            Seen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -307,6 +329,7 @@
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
             <br> 
+            Unseen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -344,11 +367,9 @@
             <h2 class="title is-3">Affordance Prediction</h2>
             <div class="level-set has-text-justified">
               <p>
-                We visualize the affordance maps of ``Pick/Push from ...'' and the ``Place/Push to ...'', 
-                which highlight the locations of the relevant target objects (in yellow circle). These 
-                affordance maps represent a probability distribution over potential manipulation places, 
-                indicating not only the target objects but also the most suitable areas for robotic interaction. 
-                The corresponding rotation angles are not depicted in the images.
+                Affordances predictions for both pick and place. DiffPort is able to generate affordance predictions and
+                localize objects without using any explicit object representations (e.g., object detections and
+                segmentation)
               </p>
             </div>
           </div>
