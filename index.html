@@ -52,8 +52,7 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">DiffPort: Adapting Pre-trained Diffusion Models for Generalizable
-              Robot Manipulation</h1>
+            <h1 class="title is-1 publication-title">Improving Generalization of Language-Conditioned Robot Manipulation</h1>
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
@@ -70,7 +69,7 @@
 
             <div class="is-size-5 publication-authors">
               <span class="author-block">Queen Mary University of London, UK<sup>1</sup><br>
-                <br>Idiap Research Institute, Switzerland<sup>2</sup></span>
+                Idiap Research Institute, Switzerland<sup>2</sup></span>
             </div>
 
             <div class="column has-text-centered">
@@ -137,8 +136,7 @@
         </video>
 
         <h2 class="subtitle has-text-centered">
-          We present DiffPort, a visual-languae model which leverage pre-trained diffsuion models for robot maniplation
-          tasks. Our model applies to a wide range of robot tasks in both simulation and real world.
+          We propose a framework that learns object-arrangement tasks with just a few-shot demonstrations. 
         </h2>
       </div>
     </div>
@@ -185,9 +183,19 @@
             <h2 class="title is-3">Pipeline</h2>
             <div class="level-set has-text-justified">
               <p>
-                Our model processes an RGB-D observation and corresponding robot commands during manipulation. In the
-                decoder, features from the diffusion model and the transporter are fused through concatenation, while
-                features from the text encoder are integrated via element-wise multiplication.
+                We first input the observation $\mathbf{o}_t$ into the CLIP visual encoder 
+                and extract the [CLS] token as a global embedding. Meanwhile, we use SAM2 to 
+                segment object masks in $\mathbf{o}_t$ and obtain visual crops of $N_{crop}$ 
+                individual objects. These cropped images are then fed into the CLIP visual 
+                encoder to generate instance embeddings. To integrate these features, we employ 
+                an instance-level semantic module that fuses each instance embedding with the 
+                global embedding. Next, we compute a confidence score for each object to assess 
+                its likelihood of alignment with the given instruction which is presented as 
+                text embeddings $e^{TL}_l$ and $e^{RD}_l$. In the Target Localization (\textit{TL}) 
+                stage, a lightweight fully connected networks (FCN) is used to refine the specific 
+                manipulation position, ensuring accurate picking. In the Region Determination 
+                (\textit{RD}) stage, the crop of the picked object is used to determine the optimal 
+                placement position and angle through cross-correlation.
               </p>
             </div>
           </div>
@@ -206,8 +214,9 @@
             <h2 class="title is-3">Robot Setup</h2>
             <div class="level-set has-text-justified">
               <p>
-                We conduct experiments using a Franka Emika Panda robot equipped with an RGB-D end-effector camera. We
-                also show our seen and unseen split of objects and colored blocks in the manipulation tasks.
+                All experiments were conducted using a UR5 robot arm equipped with 
+                a Robotiq 2F-85 2-finger gripper and an Intel Realsense D435 camera 
+                mounted on the robot arm.
               </p>
             </div>
           </div>
@@ -225,7 +234,6 @@
         <h2 class="title is-3">Real robot experiments</h2>
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
-            Seen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -233,31 +241,26 @@
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-01.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the yellow block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-02.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the blue block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-03.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the screwdriver in the brown box</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-seen-04.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the banana in the brown box</div>
           </div>
         </div>
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
             <br> 
-            Unseen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -265,25 +268,21 @@
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-01.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the orange block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-02.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the green block in the red bowl</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-03.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the strawberry in the brown box</div>
           </div>
           <div class="video-item">
             <video class="comp_video" poster="" id="tree" autoplay controls muted loop>
               <source src="static/videos/real-unseen-04.mp4" type="video/mp4">
             </video>
-            <div class="description">Put the golf ball in the brown box</div>
           </div>
         </div>
       </div>
@@ -297,7 +296,6 @@
         <h2 class="title is-3">Simulation experiments</h2>
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
-            Seen colors and objects
           </div>
         </div>
         <div class="video-container">
@@ -325,7 +323,6 @@
         <div class="level-set has-text-justified">
           <div class="container has-text-centered subtitle">
             <br> 
-            Unseen colors and objects
           </div>
         </div>
         <div class="video-container">
