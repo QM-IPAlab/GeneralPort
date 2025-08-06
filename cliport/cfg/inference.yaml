@@ -1,0 +1,29 @@
+dataset:
+  type: single
+  images: true
+  cache: false
+  augment:
+    theta_sigma: 60
+
+train:
+  lr: 1e-4
+  eps: 1e-8
+  n_rotations: 36
+  lang_fusion_type: 'mult'
+  batchnorm: False
+  
+  # script configs
+  gpu: [0] # -1 for all
+  log: False # log metrics and stats to wandb
+  n_val: 100
+  val_repeats: 1
+  save_steps: [1, 1000, 2000, 3000, 4000, 5000, 7000, 10000, 20000, 40000, 80000, 120000, 160000, 200000, 220000, 240000, 260000, 280000, 300000, 400000, 500000, 600000, 800000, 1000000, 1200000]
+  load_from_last_ckpt: True
+
+
+conceptfusion:
+  model_type: vit_h
+  checkpoint_path: /home/a/acw799/concept-fusion/code/gradslam-foundation/examples/checkpoints/sam_vit_h_4b8939.pth
+  save_dir: saved-feat
+  desired_height: 160
+  desired_width: 320

@@ -1,0 +1,10 @@
+- model_task=stack-block-pyramid-seq-seen-colors
+- eval_task=stack-block-pyramid-seq-unseen-colors
+- agent=clipfit
+- mode=test
+- n_demos=2
+- train_demos=20
+- exp_folder=exps_clipfit
+- checkpoint_type=test_best
+- update_results=True
+- record.save_video=True

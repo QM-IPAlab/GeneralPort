@@ -1,0 +1,86 @@
+# Training
+
+defaults:
+  - _self_
+  - config_hydra
+
+hydra:
+  run:
+    dir: ${train.train_dir}
+  # outpur_subdir: null   # don't create overrides.yaml
+
+dataset:
+  type: 'single' # 'single' or 'multi'
+  in_shape: [320, 160, 6]
+  images: True
+  cache: True # load episodes to memory instead of reading from disk
+  augment:
+    theta_sigma: 60 # rotation sigma in degrees; N(mu = 0, sigma = theta_sigma).
+  
+conceptfusion:
+  model_type: vit_h
+  checkpoint_path: /home/a/acw799/concept-fusion/code/gradslam-foundation/examples/checkpoints/sam_vit_h_4b8939.pth
+  save_dir: saved-feat
+  desired_height: 160
+  desired_width: 320
+
+sam2:
+  model_cfg: configs/sam2.1/sam2.1_hiera_l.yaml
+  checkpoint: /home/a/acw799/sam2/checkpoints/sam2.1_hiera_large.pt
+
+train:
+  # folders
+  exp_folder: exps
+  train_dir: ${root_dir}/${train.exp_folder}/${train.task}-${train.agent}-n${train.n_demos}-train
+  data_dir: /home/a/acw799/data
+
+  # task configs
+  task: put-block-in-bowl-seen-colors
+  agent: cliport
+  n_demos: 100
+  n_steps: 20100 # use 601000 for multi-task models
+
+  # hyper params
+  n_rotations: 36
+  batchnorm: False # important: False because batch_size=1
+  lr: 1e-4
+  lr_min: 1e-5
+  lr_scheduler: False
+  warmup_epochs: 5
+  eps: 1e-8
+
+  attn_stream_fusion_type: 'add'
+  trans_stream_fusion_type: 'conv'
+  lang_fusion_type: 'mult'
+
+  # script configs
+  gpu: [0] # -1 for all
+  log: False # log metrics and stats to wandb
+  n_val: 100
+  val_repeats: 1
+  # save_steps: [1000, 2000, 2800, 3600, 4400, 5200, 6000, 10000, 15000, 20000, 40000, 80000, 120000, 160000, 200000, 220000, 240000, 260000, 280000, 300000, 400000, 500000, 600000, 800000, 1000000, 1200000]
+  save_steps: [40, 80, 160, 200, 400, 800, 1000, 1200]
+  load_from_last_ckpt: True
+
+  # prompt learning
+  cocoop:
+    n_ctx: 4
+    # ctx_init: None  
+    ctx_init: "a photo of that"
+    prec: "fp16"
+  coop:
+    n_ctx: 4
+    ctx_init: None
+    prec: "fp16"
+
+wandb:
+  run_name: 'cliport0'
+  logger:
+    entity: cliport
+    project: cliport
+    tags: []
+    group: train
+    offline: False
+  saver:
+    upload: False
+    monitor: 'vl/loss'

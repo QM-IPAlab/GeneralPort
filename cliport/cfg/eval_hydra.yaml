@@ -1,0 +1,64 @@
+# Evaluation
+defaults:
+  - _self_
+  - config_hydra
+
+hydra:
+  run:
+    dir: ${root_dir}
+
+mode: val # 'val' or 'test'
+
+# eval settings
+agent: cliport
+n_demos: 100 # number of val instances
+train_demos: 1000 # training demos used to train model
+n_repeats: 1 # number of repeats
+gpu: [0]
+save_results: True # write results to json
+update_results: False # overwrite existing json results?
+checkpoint_type: 'val_missing'
+val_on_heldout: True
+
+disp: False
+shared_memory: False
+eval_task: packing-boxes-pairs-seen-colors # task to evaluate the model on
+model_task: ${eval_task} # task the model was trained on (e.g. multi-language-conditioned or packing-boxes-pairs-seen-colors)
+type: single # 'single' or 'multi'
+
+# paths
+model_dir: ${root_dir}
+exp_folder: exps
+save_exp_folder: exps   #  path to save val/test results on different task
+data_dir: /home/a/acw799/data
+assets_root: ${root_dir}/cliport/environments/assets/
+
+model_path: ${model_dir}/${exp_folder}/${model_task}-${agent}-n${train_demos}-train/checkpoints/ # path to pre-trained models
+train_config: ${model_dir}/${exp_folder}/${model_task}-${agent}-n${train_demos}-train/.hydra/config.yaml # path to train config
+save_path: ${model_dir}/${exp_folder}/${eval_task}-${agent}-n${train_demos}-train/checkpoints/ # path to save results
+results_path: ${model_dir}/${exp_folder}/${eval_task}-${agent}-n${train_demos}-train/checkpoints/ # path to existing results
+
+# used for one task val/test on the other task
+# save_path: ${model_dir}/${save_exp_folder}/${eval_task}-from-${model_task}-${agent}-n${train_demos}-train/checkpoints/ # path to save results
+# results_path: ${model_dir}/${save_exp_folder}/${eval_task}-from-${model_task}-${agent}-n${train_demos}-train/checkpoints/ # path to existing results
+
+
+inference_config: ${model_dir}/cliport/cfg/inference.yaml
+
+# record videos (super slow)
+record:
+  save_video: False
+  save_video_path: ${model_dir}/${exp_folder}/${eval_task}-${agent}-n${train_demos}-train/videos/
+  add_text: True
+  fps: 20
+  video_height: 640
+  video_width: 720
+
+viz_type: 'thresh'
+
+conceptfusion:
+  model_type: vit_h
+  checkpoint_path: /home/a/acw799/concept-fusion/code/gradslam-foundation/examples/checkpoints/sam_vit_h_4b8939.pth
+  save_dir: saved-feat
+  desired_height: 160
+  desired_width: 320

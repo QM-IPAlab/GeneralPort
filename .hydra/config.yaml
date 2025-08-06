@@ -1,0 +1,43 @@
+mode: test
+agent: clipfit
+n_demos: 2
+train_demos: 20
+n_repeats: 1
+gpu:
+- 0
+save_results: true
+update_results: true
+checkpoint_type: test_best
+val_on_heldout: true
+disp: false
+shared_memory: false
+eval_task: stack-block-pyramid-seq-unseen-colors
+model_task: stack-block-pyramid-seq-seen-colors
+type: single
+model_dir: ${root_dir}
+exp_folder: exps_clipfit
+save_exp_folder: exps
+data_dir: /home/a/acw799/data
+assets_root: ${root_dir}/cliport/environments/assets/
+model_path: ${model_dir}/${exp_folder}/${model_task}-${agent}-n${train_demos}-train/checkpoints/
+train_config: ${model_dir}/${exp_folder}/${model_task}-${agent}-n${train_demos}-train/.hydra/config.yaml
+save_path: ${model_dir}/${exp_folder}/${eval_task}-${agent}-n${train_demos}-train/checkpoints/
+results_path: ${model_dir}/${exp_folder}/${eval_task}-${agent}-n${train_demos}-train/checkpoints/
+inference_config: ${model_dir}/cliport/cfg/inference.yaml
+record:
+  save_video: true
+  save_video_path: ${model_dir}/${exp_folder}/${eval_task}-${agent}-n${train_demos}-train/videos/
+  add_text: true
+  fps: 20
+  video_height: 640
+  video_width: 720
+viz_type: thresh
+conceptfusion:
+  model_type: vit_h
+  checkpoint_path: /home/a/acw799/concept-fusion/code/gradslam-foundation/examples/checkpoints/sam_vit_h_4b8939.pth
+  save_dir: saved-feat
+  desired_height: 160
+  desired_width: 320
+root_dir: ${oc.env:CLIPORT_ROOT}
+tag: default
+debug: false
