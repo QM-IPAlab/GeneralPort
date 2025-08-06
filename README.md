@@ -62,6 +62,7 @@ python cliport/eval0.py model_task=align-rope \
 ```
 
 Testing:
+```bash
 python cliport/eval0.py model_task=align-rope \
                        eval_task=align-rope \
                        agent=clipfit \
