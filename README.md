@@ -27,17 +27,17 @@ pip install -e .
 ```
 
 ## Dataset Generation
-Generate a `train` set of 1000 demonstrations for `stack-block-pyramid-seq-seen-colors` inside `$CLIPORT_ROOT/data`:
+Generate a `train` set of 100 demonstrations for `packing-seen-google-objects-seq` inside `$CLIPORT_ROOT/data`:
 ```bash
-python cliport/demos.py n=1000 \
-                        task=stack-block-pyramid-seq-seen-colors \
+python cliport/demos.py n=100 \
+                        task=packing-seen-google-objects-seq \
                         mode=train 
 ```
 
 ## Training, Validation and Testing
 Training: submit train_clipfit.slurm or
 ```bash
-python cliport/train0.py train.task=towers-of-hanoi-seq-seen-colors \
+python cliport/train0.py train.task=packing-seen-google-objects-seq \
                         train.agent=clipfit\
                         train.attn_stream_fusion_type=add \
                         train.trans_stream_fusion_type=conv \
@@ -51,8 +51,8 @@ python cliport/train0.py train.task=towers-of-hanoi-seq-seen-colors \
 
 Validation: Submit val_clipfit.slum or
 ```bash
-python cliport/eval0.py model_task=align-rope \
-                       eval_task=align-rope \
+python cliport/eval0.py model_task=packing-seen-google-objects-seq \
+                       eval_task=packing-seen-google-objects-seq \
                        agent=clipfit \
                        mode=val \
                        n_demos=25 \
@@ -63,8 +63,8 @@ python cliport/eval0.py model_task=align-rope \
 
 Testing:
 ```bash
-python cliport/eval0.py model_task=align-rope \
-                       eval_task=align-rope \
+python cliport/eval0.py model_task=packing-seen-google-objects-seq \
+                       eval_task=packing-seen-google-objects-seq \
                        agent=clipfit \
                        mode=test \
                        n_demos=25 \
