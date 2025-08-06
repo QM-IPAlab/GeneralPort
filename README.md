@@ -12,7 +12,7 @@ virtualenv -p $(which python3.8) --system-site-packages generalport_env
 source generalport_env/bin/activate
 pip install --upgrade pip
 
-cd cliport
+cd generalport
 pip install -r requirements.txt
 
 export CLIPORT_ROOT=$(pwd)
