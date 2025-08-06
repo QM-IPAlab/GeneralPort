@@ -16,7 +16,7 @@ cd generalport
 pip install -r requirements.txt
 
 export CLIPORT_ROOT=$(pwd)
-pip install -e .
+pip install -e .  # install cliport
 ```
 
 Install SAM2:
