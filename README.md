@@ -58,7 +58,7 @@ python cliport/eval0.py model_task=align-rope \
                        n_demos=25 \
                        train_demos=20 \
                        checkpoint_type=val_missing \
-                       exp_folder=exps_clipfit_ \
+                       exp_folder=exps_clipfit \
 ```
 
 Testing:
@@ -70,6 +70,6 @@ python cliport/eval0.py model_task=align-rope \
                        n_demos=25 \
                        train_demos=20 \
                        checkpoint_type=val_missing \
-                       exp_folder=exps_clipfit_ \
+                       exp_folder=exps_clipfit \
 ```
 
