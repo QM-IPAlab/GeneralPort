@@ -57,20 +57,20 @@
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
-                Chenglin Cui</a><sup>1</sup>,</span>
+                <a href="https://lin3-cc.github.io/" target="_blank">Chenglin Cui</a><sup>1</sup>,</span>
               <span class="author-block">
-                Chaoran Zhu</a><sup>1</sup>,</span>
+                <a href="https://noone65536.github.io" target="_blank">Chaoran Zhu</a><sup>1</sup>,</span>
               <span class="author-block">
                 <a href="http://eecs.qmul.ac.uk/~coh/" target="_blank">Changjae Oh</a><sup>1</sup>,
               </span>
               <span class="author-block">
-                Andrea Cavallaro</a><sup>2</sup>,
-              </span>
+                <a href="https://scholar.google.co.uk/citations?user=KZmcljoAAAAJ&hl=en" target="_blank">Andrea Cavallaro</a><sup>2,3</sup>,
+              </span>              
             </div>
 
             <div class="is-size-5 publication-authors">
-              <span class="author-block">Queen Mary University of London, UK<sup>1</sup><br>
-                Idiap Research Institute, Switzerland<sup>2</sup></span>
+              <span class="author-block">Queen Mary University of London<sup>1</sup><br>
+                Idiap Research Institute<sup>2</sup>, École Polytechnique Fédérale de Lausanne<sup>3</sup></span>                
             </div>
 
             <div class="column has-text-centered">
@@ -78,11 +78,11 @@
 
                 <!-- Arxiv PDF link -->
                 <span class="link-block">
-                  <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://www.arxiv.org/abs/2508.02405" target="_blank" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                     </span>
-                    <span>Paper (Under review)
+                    <span>Paper
                     </span>
                   </a>
                 </span>
@@ -100,12 +100,12 @@
 
                 <!-- Github link -->
                 <span class="link-block">
-                  <a href="https://github.com/QM-IPAlab/StereoHO" target="_blank"
+                  <a href="https://github.com/QM-IPAlab/GeneralPort" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
-                    <span>Code (Comming soon)</span>
+                    <span>Code</span>
                   </a>
                 </span>
 
@@ -127,22 +127,6 @@
     </div>
   </section>
 
-
-  <!-- Teaser video-->
-  <section class="hero teaser">
-    <div class="container is-max-desktop">
-      <div class="hero-body">
-        <video poster="" id="tree" autoplay controls muted loop height="100%" width="100%">
-          <source src="static/videos/teaser video.mp4" type="video/mp4">
-        </video>
-
-        <h2 class="subtitle has-text-centered">
-          We propose a framework that learns object-arrangement tasks with just a few-shot demonstrations. 
-        </h2>
-      </div>
-    </div>
-  </section>
-  <!-- End teaser video -->
 
   <!-- Paper abstract -->
   <section class="section hero is-light">
@@ -184,18 +168,18 @@
             <h2 class="title is-3">Pipeline</h2>
             <div class="level-set has-text-justified">
               <p>
-                We first input the observation $\mathbf{o}_t$ into the CLIP visual encoder 
+                We first input the observation into the CLIP visual encoder 
                 and extract the [CLS] token as a global embedding. Meanwhile, we use SAM2 to 
-                segment object masks in $\mathbf{o}_t$ and obtain visual crops of $N_{crop}$ 
-                individual objects. These cropped images are then fed into the CLIP visual 
+                segment object masks in observation and obtain visual crops of individual objects. 
+                These cropped images are then fed into the CLIP visual 
                 encoder to generate instance embeddings. To integrate these features, we employ 
                 an instance-level semantic module that fuses each instance embedding with the 
                 global embedding. Next, we compute a confidence score for each object to assess 
                 its likelihood of alignment with the given instruction which is presented as 
-                text embeddings $e^{TL}_l$ and $e^{RD}_l$. In the Target Localization (\textit{TL}) 
+                text embeddings. In the Target Localization 
                 stage, a lightweight fully connected networks (FCN) is used to refine the specific 
                 manipulation position, ensuring accurate picking. In the Region Determination 
-                (\textit{RD}) stage, the crop of the picked object is used to determine the optimal 
+                stage, the crop of the picked object is used to determine the optimal 
                 placement position and angle through cross-correlation.
               </p>
             </div>
